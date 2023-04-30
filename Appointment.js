@@ -8,18 +8,20 @@ async function myfun(e) {
     name,
     email,
   };
-// console.log(user);
-  try {
-    let res = await axios.post(
-      "https://crudcrud.com/api/7be34815229341ce9a730ea8ed9b2bfe/appointmentData/",
-      {
-        user,
-      }
-    );
-    alert("Users Added");
 
-    console.log(res);
-    addData(res.data);
+  try {
+    if (name === "" || email === "") {
+      alert("Please fill all inputs");
+    } else {
+      let res = await axios.post(
+        "https://crudcrud.com/api/42d30e59511d4c0a858fa9103bc79cdf/appointmentData/",
+        {
+          user,
+        }
+      );
+      alert("Users Added");
+      window.location.reload();
+    }
   } catch (error) {
     console.log("error:", error);
     alert("Action Failed");
@@ -28,40 +30,66 @@ async function myfun(e) {
   email = "";
 }
 
-window.addEventListener('DOMContentLoaded',() =>{
-  axios
-  .get('https://crudcrud.com/api/7be34815229341ce9a730ea8ed9b2bfe/appointmentData/')
-  .then(res =>{
-    // console.log(res);
-    for(var i=0; i<res.data.length;i++){
-      console.log(res.data[i])
-      addData(res.data[i]);
-    }
-  })
-  .catch(err => console.log(err));
-})
-  
+async function getUser() {
+  try {
+    let res = await axios.get(
+      "https://crudcrud.com/api/42d30e59511d4c0a858fa9103bc79cdf/appointmentData/"
+    );
+    console.log(res.data);
+    displayData(res.data);
+  } catch (error) {
+    console.log("error:", error);
+  }
+}
 
-function addData(data) {
-  let div = document.createElement("div");
-  let del = document.createElement("button");
-  let edit = document.createElement("button");
-  del.innerText = "Delete";
-  edit.innerText = "Edit";
-  div.className = "user";
-  let h1 = document.createElement("h1");
-  let p = document.createElement("p");
-  h1.innerText = data.user.name;
-  p.innerText = data.user.email;
-  div.append(h1, p, del, edit);
+getUser();
 
-  del.addEventListener('click', (e) =>{
-    e.preventDefault();
-    axios
-    .delete(`https://crudcrud.com/api/7be34815229341ce9a730ea8ed9b2bfe/appointmentData/${data._id}`)
-    .then(res => window.location.reload())
-    .catch(err => console.log(err))
-  })
-  
-  document.querySelector("body").append(div);
+function displayData(data) {
+  data.forEach((el) => {
+    let div = document.createElement("div");
+    div.className = "user";
+    let h1 = document.createElement("h1");
+    let p = document.createElement("p");
+    h1.innerText = `Name :- ${el.user.name}`;
+    p.innerText = `Email :- ${el.user.email}`;
+    let deleteBtn = document.createElement("button");
+    deleteBtn.innerText = "DELETE";
+    deleteBtn.onclick = () => {
+      deleteUser(el._id);
+    };
+    let edit = document.createElement("button");
+    edit.innerText = "Edit";
+    edit.onclick = () => {
+      editUser(el._id, el.user.name, el.user.email);
+    };
+    div.append(h1, p, deleteBtn, edit);
+    document.querySelector("body").append(div);
+  });
+}
+
+async function deleteUser(obj) {
+  console.log(obj);
+  try {
+    let res = await axios.delete(
+      `https://crudcrud.com/api/42d30e59511d4c0a858fa9103bc79cdf/appointmentData/${obj}`
+    );
+
+    window.location.reload();
+  } catch (error) {
+    console.log("error:", error);
+  }
+}
+
+async function editUser(obj, Username, Useremail) {
+  console.log(obj, Username, Useremail);
+  let name = (document.getElementById("name").value = Username);
+  let email = (document.getElementById("email").value = Useremail);
+
+  try {
+    let res = await axios.delete(
+      `https://crudcrud.com/api/42d30e59511d4c0a858fa9103bc79cdf/appointmentData/${obj}`
+    );
+  } catch (error) {
+    console.log("error:", error);
+  }
 }
