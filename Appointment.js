@@ -28,6 +28,19 @@ async function myfun(e) {
   email = "";
 }
 
+window.addEventListener('DOMContentLoaded',() =>{
+  axios
+  .get('https://crudcrud.com/api/cf0d8469104b4563b17a9de154479a12/appointmentData/')
+  .then(res =>{
+    console.log(res);
+    for(var i=0; i<res.data.length;i++){
+      console.log(res.data[i])
+      addData(res.data[i]);
+    }
+  })
+  .catch(err => console.log(err));
+})
+
 function addData(data) {
   let div = document.createElement("div");
   let del = document.createElement("button");
