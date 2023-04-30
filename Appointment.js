@@ -8,10 +8,10 @@ async function myfun(e) {
     name,
     email,
   };
-
+// console.log(user);
   try {
     let res = await axios.post(
-      "https://crudcrud.com/api/cf0d8469104b4563b17a9de154479a12/appointmentData",
+      "https://crudcrud.com/api/7be34815229341ce9a730ea8ed9b2bfe/appointmentData/",
       {
         user,
       }
@@ -19,7 +19,7 @@ async function myfun(e) {
     alert("Users Added");
 
     console.log(res);
-    addData(res);
+    addData(res.data);
   } catch (error) {
     console.log("error:", error);
     alert("Action Failed");
@@ -30,9 +30,9 @@ async function myfun(e) {
 
 window.addEventListener('DOMContentLoaded',() =>{
   axios
-  .get('https://crudcrud.com/api/cf0d8469104b4563b17a9de154479a12/appointmentData/')
+  .get('https://crudcrud.com/api/7be34815229341ce9a730ea8ed9b2bfe/appointmentData/')
   .then(res =>{
-    console.log(res);
+    // console.log(res);
     for(var i=0; i<res.data.length;i++){
       console.log(res.data[i])
       addData(res.data[i]);
@@ -40,6 +40,7 @@ window.addEventListener('DOMContentLoaded',() =>{
   })
   .catch(err => console.log(err));
 })
+  
 
 function addData(data) {
   let div = document.createElement("div");
@@ -50,8 +51,17 @@ function addData(data) {
   div.className = "user";
   let h1 = document.createElement("h1");
   let p = document.createElement("p");
-  h1.innerText = data.data.user.name;
-  p.innerText = data.data.user.email;
+  h1.innerText = data.user.name;
+  p.innerText = data.user.email;
   div.append(h1, p, del, edit);
+
+  del.addEventListener('click', (e) =>{
+    e.preventDefault();
+    axios
+    .delete(`https://crudcrud.com/api/7be34815229341ce9a730ea8ed9b2bfe/appointmentData/${data._id}`)
+    .then(res => window.location.reload())
+    .catch(err => console.log(err))
+  })
+  
   document.querySelector("body").append(div);
 }
