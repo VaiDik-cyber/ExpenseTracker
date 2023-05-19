@@ -8,7 +8,7 @@ async function myfun(e) {
     name,
     email,
   };
-
+    console.log(user)
   try {
     if (name === "" || email === "") {
       alert("Please fill all inputs");
