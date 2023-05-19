@@ -8,20 +8,18 @@ async function myfun(e) {
     name,
     email,
   };
-    console.log(user)
+
   try {
-    if (name === "" || email === "") {
-      alert("Please fill all inputs");
-    } else {
-      let res = await axios.post(
-        "https://crudcrud.com/api/42d30e59511d4c0a858fa9103bc79cdf/appointmentData/",
-        {
-          user,
-        }
-      );
-      alert("Users Added");
-      window.location.reload();
-    }
+    let res = await axios.post(
+      "https://crudcrud.com/api/395a3bcab9ca41b2b4ddd2e776947e4e/Data",
+      {
+        user,
+      }
+    
+    );
+    alert("Users Added");
+    // window.location.reload();
+    getUser();
   } catch (error) {
     console.log("error:", error);
     alert("Action Failed");
@@ -33,7 +31,7 @@ async function myfun(e) {
 async function getUser() {
   try {
     let res = await axios.get(
-      "https://crudcrud.com/api/42d30e59511d4c0a858fa9103bc79cdf/appointmentData/"
+      "https://crudcrud.com/api/395a3bcab9ca41b2b4ddd2e776947e4e/Data"
     );
     console.log(res.data);
     displayData(res.data);
@@ -71,10 +69,10 @@ async function deleteUser(obj) {
   console.log(obj);
   try {
     let res = await axios.delete(
-      `https://crudcrud.com/api/42d30e59511d4c0a858fa9103bc79cdf/appointmentData/${obj}`
+      `https://crudcrud.com/api/395a3bcab9ca41b2b4ddd2e776947e4e/Data/${obj}`
     );
 
-    window.location.reload();
+    getUser();
   } catch (error) {
     console.log("error:", error);
   }
@@ -87,7 +85,7 @@ async function editUser(obj, Username, Useremail) {
 
   try {
     let res = await axios.delete(
-      `https://crudcrud.com/api/42d30e59511d4c0a858fa9103bc79cdf/appointmentData/${obj}`
+      `https://crudcrud.com/api/395a3bcab9ca41b2b4ddd2e776947e4e/Data/${obj}`
     );
   } catch (error) {
     console.log("error:", error);
