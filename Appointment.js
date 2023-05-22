@@ -24,8 +24,9 @@ async function myfun(e) {
     console.log("error:", error);
     alert("Action Failed");
   }
-  name = "";
-  email = "";
+  document.getElementById("name").value = "";
+  document.getElementById("email").value = "";
+  
 }
 
 async function getUser() {
@@ -45,6 +46,7 @@ getUser();
 function displayData(data) {
   data.forEach((el) => {
     let div = document.createElement("div");
+    div.innerHTML = "";
     div.className = "user";
     let h1 = document.createElement("h1");
     let p = document.createElement("p");
